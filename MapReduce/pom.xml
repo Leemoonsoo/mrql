@@ -72,8 +72,7 @@
                 <configuration>
                   <sources>
                     <source>../src/main/java/MultipleInputs</source>
-                    <source>../src/main/java/MapReduce</source>
-                    <source>${project.build.directory}/generated-sources/org/apache/mrql</source>
+                    <source>${project.build.directory}/generated-sources</source>
                   </sources>
                 </configuration>
               </execution>
@@ -86,23 +85,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals><goal>add-source</goal></goals>
-            <configuration>
-              <sources>
-                <source>../src/main/java/MapReduce</source>
-                <source>${project.build.directory}/generated-sources/org/apache/mrql</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-shade-plugin</artifactId>
@@ -149,9 +131,9 @@
 	    </goals>
 	    <configuration>
               <target>
-                <mkdir dir="${project.build.directory}/generated-sources/org/apache/mrql" />
+                <mkdir dir="${project.build.directory}/generated-sources/" />
                 <property name="compile_classpath" refid="maven.compile.classpath" />
-		<fileset id="mr.gen.path" dir="../src/main/java/MapReduce" includes="*.gen" />
+		<fileset id="mr.gen.path" dir="src/main/java/org/apache/mrql" includes="*.gen" />
 		<pathconvert pathsep=" " property="mr.gen.files" refid="mr.gen.path" />
 		<java classname="org.apache.mrql.gen.Main" classpath="../lib/mrql-gen-${project.version}.jar:${compile_classpath}">
 		  <arg line="${mr.gen.files}" />
